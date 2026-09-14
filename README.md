@@ -1,6 +1,6 @@
 # Quantitative Finance: Theory, Computation and Model Validation
 
-A research portfolio exploring how mathematical models and computational methods inform financial and economic decisions—and how uncertainty in their assumptions, inputs and numerical solutions affects the answers.
+A research portfolio exploring how mathematical models and computational methods inform financial and economic decisions, and how uncertainty in their assumptions, inputs and numerical solutions affects the answers.
 
 The planned work spans option exercise, investment allocation and household finance. Each investigation will combine a focused research question, mathematical derivations, reusable software and experiments that assess the reliability and economic significance of the results.
 
@@ -147,7 +147,7 @@ The analysis would separate integration error, optimisation error, weak identifi
 | **Generated figures and tables** | Make the findings inspectable and reproducible |
 | **Data and source documentation** | Record provenance, transformations, permissions and attribution |
 
-Notebooks will explain experiments; reusable algorithms will live in the source package. Setup instructions and reproduction commands will accompany the first implementation.
+Notebooks will explain experiments; reusable algorithms will live in the source package. Set-up instructions and reproduction commands will accompany the first implementation.
 
 ## Reproducibility and research standards
 
