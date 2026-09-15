@@ -2,22 +2,27 @@
 
 A research portfolio exploring how mathematical models and computational methods inform financial and economic decisions, and how uncertainty in their assumptions, inputs and numerical solutions affects the answers.
 
-The planned work spans option exercise, investment allocation and household finance. Each investigation will combine a focused research question, mathematical derivations, reusable software and experiments that assess the reliability and economic significance of the results.
+The work spans option exercise, investment allocation and the transmission of monetary policy to production. Each investigation will combine a focused research question, mathematical or econometric foundations, reusable software and evidence that assesses the reliability and economic significance of the results.
 
-**Status: planning and project specification.** This repository currently contains this overview. Implementations, reports and results will be added as projects are developed and validated. The descriptions below describe intended work, not completed findings.
+**Status: research in progress.** Project 1 is in Stage 1, foundations and data feasibility. A Python prototype, mathematical notes and preliminary numerical checks are available. An official Treasury data snapshot has been acquired; the option-market dataset and empirical study remain under development. Project 2 is planned. Project 3 now focuses on ECB monetary-policy shocks and German consumer-goods production. An initial data-access and coverage check is complete, but its empirical pipeline and results are not yet available. No project is presented as a completed research contribution.
+
+Start with the [Project 1 overview](projects/01_optimal_stopping/README.md), its [staged research design](projects/01_optimal_stopping/research_design.md) and the [observed-data plan](projects/01_optimal_stopping/data_plan.md). Setup and reproduction instructions are in the project overview.
+
+The [Germany research overview](#3-monetary-policy-and-consumer-goods-production-in-germany) below describes the economics question, accessible datasets and planned empirical work.
 
 ## What this repository investigates
 
-Financial models turn assumptions and observations into decisions: when to exercise an option, how to allocate a portfolio, or whether a household should move its savings. Those decisions depend on several choices:
+Financial and economic research connects assumptions and observations to decisions and outcomes: when to exercise an option, how to allocate a portfolio, and how an unexpected monetary-policy change affects production. The conclusions depend on several choices:
 
 - **Economic assumptions:** preferences, incentives, constraints and the information available to decision-makers.
 - **Financial modelling:** contract terms, risk exposures, market frictions and the distinction between valuation and forecasting.
 - **Mathematical methods:** probability, analysis, linear algebra, differential equations, statistics and optimisation.
+- **Econometric identification:** the variation used to estimate an effect, the assumptions supporting a causal interpretation and the treatment of competing explanations.
 - **Computational methods:** algorithms, data representations, numerical approximations and the allocation of computational resources.
 
-The common research question is how these choices affect a model's conclusions. A method will be assessed both for the accuracy of its implementation and for the quality of the decisions it supports.
+The common research question is how these choices affect the conclusions. A method will be assessed for the accuracy of its implementation and the credibility of the financial or economic interpretation it supports.
 
-Python will be the primary implementation language. Selected C++ components may be introduced where profiling identifies a worthwhile computational bottleneck.
+Python is the primary implementation language. Project 1 includes a planned C++ computational study, with a readable Python reference and accuracy checks before performance comparisons. Project 3 will use Python for data processing and estimation, with selected estimates independently checked in R.
 
 ## Planned project portfolio
 
@@ -25,13 +30,15 @@ Python will be the primary implementation language. Selected C++ components may 
 | --- | --- | --- |
 | **Optimal stopping and option pricing** | How do numerical approximations affect option values and exercise decisions? | Conditional expectation, martingales, stochastic calculus, PDEs and numerical analysis |
 | **Robust portfolio optimisation** | When does protection against estimation uncertainty improve investment decisions? | Matrix analysis, convex optimisation, duality, statistical estimation and decision theory |
-| **Household finance under constraints** | How do income risk, liquidity constraints and financial frictions affect household choices and welfare? | Dynamic programming, fixed points, Markov processes, constrained optimisation and economic modelling |
+| **Monetary policy and German production** | How does an unexpected ECB monetary tightening affect durable consumer-goods production relative to nondurable consumer-goods production in Germany? | Monetary economics, time-series econometrics, identification using financial-market surprises, local projections and statistical inference |
 
-Two possible later extensions will investigate **stochastic-volatility inference** and **option-model calibration and identifiability**. Their scope is outlined below. The economics project's final topic remains under development.
+Two possible later extensions will investigate **stochastic-volatility inference** and **option-model calibration and identifiability**. Their scope is outlined below.
 
 ## 1. Optimal stopping and option pricing
 
 **Research question:** How much option value is lost through approximate exercise decisions, and which computational improvements reduce that loss most efficiently?
+
+The intended empirical study will fit models to observed market conditions and assess whether improvements matter relative to option value and bid–ask spreads. The existing simulated checks serve numerical validation only. [Stage completion criteria](projects/01_optimal_stopping/research_design.md) separate this preliminary work from the eventual research conclusions.
 
 An early-exercise option requires a decision between exercising now and preserving the opportunity to exercise later. Computing its value therefore involves estimating future outcomes and solving an optimal-stopping problem using only the information available at each decision date.
 
@@ -81,39 +88,52 @@ Historical-data experiments will use chronological estimation, validation and ev
 
 The intended outputs are derivations, spectral diagnostics, solver comparisons and a research report identifying conditions under which robust decisions improve or deteriorate. Expected-shortfall optimisation is a possible extension if it introduces a distinct research question.
 
-## 3. Household finance and decisions under constraints
+## 3. Monetary policy and consumer-goods production in Germany
 
-**Research direction:** How do income uncertainty, liquidity constraints and financial frictions affect household decisions and welfare?
+**Research question:** How does an unexpected ECB monetary tightening affect durable consumer-goods production relative to nondurable consumer-goods production in Germany?
 
-This project will develop a self-contained economic model supported by numerical solutions and controlled experiments. The final topic will be chosen after the mechanism, model scope and available evidence have been assessed.
+The project will investigate whether the ability to postpone durable purchases is reflected in different production responses to monetary-policy shocks. This is a hypothesis to assess. German production also serves foreign demand and responds to supply conditions, so the estimates will not, by themselves, isolate household spending or a single transmission mechanism.
 
-Two candidate questions are under consideration:
+The central outcome is the difference between the two production responses at a pre-specified horizon, supported by estimated response paths. The study will estimate and test this difference directly, accounting for dependence between the two series. Statistical significance in one series and its absence in the other will not be treated as evidence that their responses differ.
 
-- **Liquidity and bank switching:** How do liquidity risk and uncertainty about the persistence of a deposit-rate advantage affect switching decisions, and which households benefit most from lower switching costs?
-- **Income risk and portfolio choice:** How does correlation between labour-income shocks and equity returns affect optimal equity exposure and the welfare cost of borrowing constraints?
+### Data and sample
 
-The project will pursue one focused question. Both candidates connect household preferences and constraints to a financial decision and a measurable welfare consequence.
+An initial check on **15 September 2026** verified public downloads of the following series without a subscription or institutional login:
 
-### Mathematical and computational work
+| Input | Source | Verified coverage |
+| --- | --- | --- |
+| German durable and nondurable consumer-goods production | [Eurostat industrial production, `sts_inpr_m`](https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m/default/table?lang=en) | January 1991 to July 2026; 427 monthly observations in each series, with no gaps within this interval |
+| ECB monetary-policy and central-bank information shocks | [Jarociński's author-maintained update](https://github.com/marekjarocinski/jkshocks_update_ecb) | January 1999 to October 2025; 312 events, supplied as 322 monthly observations |
+| German all-items Harmonised Index of Consumer Prices | [Eurostat historical HICP series, `prc_hicp_midx`](https://ec.europa.eu/eurostat/en/web/products-datasets/-/PRC_HICP_MIDX) | January 1996 to December 2025; 360 monthly observations |
 
-- Specify states, actions, information, budget constraints and transition dynamics.
-- Derive the Bellman equation and relevant optimality conditions.
-- Establish the contraction property and uniqueness of the value function for an appropriate bounded, discounted formulation.
-- Implement value iteration and policy iteration, with independent checks on tractable cases.
-- Use Bellman residuals to assess solution accuracy and investigate grid and boundary sensitivity.
-- Compare policies and welfare across carefully controlled changes in economic assumptions.
+Production uses the seasonally and calendar adjusted volume indices, with 2021=100, for `MIG_DCOG` and `MIG_NDCOG`. These are consumer-goods production groups. Their classification differs from the broader US durable and nondurable manufacturing split.
 
-Proofs for a finite approximation will be identified as such. Any extension to continuous or unbounded state spaces will require its own assumptions and justification. Stationary-distribution calculations will be used only under the relevant conditions on the induced Markov chain.
+The production and shock series overlap for **322 months, January 1999 to October 2025**, before adjustments for lags, response horizons, controls and exclusions. This establishes data availability, not statistical power. The final estimation sample will be documented for each specification. More recent production observations do not extend the shock series beyond its verified coverage.
 
-### Experiments and intended outputs
+The shock data are an update of a published research method, rather than the original journal replication vintage. Raw announcement-window observations are also available in the [ECB's Euro Area Monetary Policy Event-Study Database](https://www.ecb.europa.eu/pub/pdf/annex/Dataset_EA-MPD.xlsx). Reconciling event coverage and documenting the construction of the derived shocks remain part of the data audit.
 
-Initial experiments will use synthetic data and explicit parameter choices. Comparative statics will isolate the mechanism being studied, while sensitivity analysis will assess whether conclusions depend on calibration or numerical approximations.
+### Econometric and computational work
 
-For a bank-switching model with exogenous deposit rates, findings will concern household responses to those rates. Claims about banks' equilibrium pricing would require an additional model of bank behaviour.
+- Develop the economic argument and state the assumptions required to interpret announcement-window surprises as policy shocks.
+- Explain the distinction between monetary-policy shocks and information about the economic outlook conveyed by the central bank.
+- Build a reproducible Python pipeline for acquisition, date alignment, missing-value checks, transformations and sample construction.
+- Specify local projections for the production responses and their difference, with a primary horizon and a compact lag structure chosen before examining the main results.
+- Use uncertainty estimates appropriate to serial dependence and overlapping response horizons, and distinguish pointwise intervals from inference across a response path.
+- Examine sensitivity to lag choices, shock decomposition, crisis periods and influential announcements, reporting material changes in the conclusions.
+- Check selected estimates independently in R using the same observations, transformations and inference conventions.
 
-The intended outputs are an economics research paper, documented solvers, policy-region figures, welfare comparisons and a technical account of numerical accuracy.
+An extension using a fixed-composition euro-area aggregate may assess whether the German pattern is also visible at the monetary-union level. It will be treated as a separate geographical comparison, not as independent replication of the same policy shocks.
 
-**Starting reference:** [Sargent and Stachurski, *Optimal Savings III: Stochastic Returns*](https://python.quantecon.org/os_stochastic.html).
+### Intended outputs
+
+The project will produce a documented analysis dataset, reusable estimation code, an executed Jupyter notebook, response figures, robustness tables and an economics research paper. A concise summary will retain the same research question, principal estimates and limitations as the full paper.
+
+The report will connect the estimates to monetary transmission and German production, discuss competing explanations, and distinguish causal assumptions from observed patterns. Imprecise estimates and results that do not support the initial hypothesis will be reported. No empirical findings are claimed at this stage.
+
+**Published foundations:**
+
+- Altavilla, C., Brugnolini, L., Gürkaynak, R. S., Motto, R. and Ragusa, G. (2019). [*Measuring euro area monetary policy*](https://doi.org/10.1016/j.jmoneco.2019.08.016). *Journal of Monetary Economics*, 108, 162–179.
+- Jarociński, M. and Karadi, P. (2020). [*Deconstructing Monetary Policy Surprises: The Role of Information Shocks*](https://doi.org/10.1257/mac.20180090). *American Economic Journal: Macroeconomics*, 12(2), 1–43.
 
 ## Possible later extensions
 
@@ -131,7 +151,7 @@ Predictive accuracy and the quality of any risk-management or allocation decisio
 
 This project would ask whether parameter sets that fit option prices almost equally well imply materially different Greeks or values for other contracts.
 
-It would combine Heston characteristic-function pricing, Fourier inversion, numerical quadrature and constrained nonlinear calibration. Synthetic option surfaces would support parameter-recovery experiments, multiple-start optimisation, Jacobian singular-value diagnostics and sensitivity to quote perturbations.
+It would combine Heston characteristic-function pricing, Fourier inversion, numerical quadrature and constrained nonlinear calibration. Model-generated surfaces would serve parameter-recovery tests only. The principal investigation would use observed option quotes, multiple-start optimisation, Jacobian singular-value diagnostics and sensitivity to documented quote uncertainty.
 
 The analysis would separate integration error, optimisation error, weak identification and model misspecification. Historical-return inference and risk-neutral option calibration would retain their distinct probability measures and model specifications.
 
@@ -142,12 +162,13 @@ The analysis would separate integration error, optimisation error, weak identifi
 | **Project overview** | Explain the question, contribution, principal findings and limitations |
 | **Research report** | Present assumptions, derivations, algorithms, experiments and interpretation |
 | **Reusable source code** | Implement the central models and numerical methods |
+| **Jupyter notebooks** | Explain the analysis and reproduce selected figures and tables using the source package |
 | **Experiment configurations** | Record parameters, seeds, tolerances and evaluation choices |
 | **Validation and benchmarks** | Establish correctness and assess accuracy, stability and computational cost |
 | **Generated figures and tables** | Make the findings inspectable and reproducible |
 | **Data and source documentation** | Record provenance, transformations, permissions and attribution |
 
-Notebooks will explain experiments; reusable algorithms will live in the source package. Set-up instructions and reproduction commands will accompany the first implementation.
+Reusable algorithms live in the source package. The first implementation includes documented command-line experiments and generated validation records. Planned explanatory notebooks will import the reusable implementation and be executed from a fresh kernel before release. Notebooks are not yet included in the current repository.
 
 ## Reproducibility and research standards
 
@@ -156,5 +177,9 @@ Every released experiment will record its assumptions, configuration, random-num
 Analytical solutions, independent implementations and known generating parameters will provide checks wherever possible. Repeated runs will assess simulation variability. Empirical work will document information timing, data transformations and chronological evaluation, with uncertainty estimates appropriate to the dependence in the observations.
 
 Reports will distinguish established theory, numerical evidence and empirical interpretation. Mathematical arguments will state their assumptions. Sources, adapted arguments, reused code and original contributions will be identified explicitly. Public datasets will be accompanied by provenance and redistribution information.
+
+Literature reviews will prioritise published, peer-reviewed papers. Working papers will be identified as such and used where they address a relevant gap. Source records will identify the version actually consulted and distinguish published methods from subsequent data updates.
+
+Empirical claims must use observed, traceable data. Simulation and analytically specified fixtures are labelled as mathematical validation and never passed off as market observations. Current retrieval dates and historical observation dates are recorded separately. See the [provenance record](PROVENANCE.md).
 
 Each project will be released when its central question has been answered with reproducible evidence and its limitations have been documented. Optional extensions will have separate milestones so that a sound core investigation can be completed and presented independently.
