@@ -4,11 +4,33 @@ A research portfolio exploring how mathematical models and computational methods
 
 The work spans option exercise, investment allocation and the transmission of monetary policy to production. Each investigation will combine a focused research question, mathematical or econometric foundations, reusable software and evidence that assesses the reliability and economic significance of the results.
 
-**Status: research in progress.** Project 1 is in Stage 1, foundations and data feasibility. A Python prototype, mathematical notes and preliminary numerical checks are available. An official Treasury data snapshot has been acquired; the option-market dataset and empirical study remain under development. Project 2 is planned. Project 3 now focuses on ECB monetary-policy shocks and German consumer-goods production. An initial data-access and coverage check is complete, but its empirical pipeline and results are not yet available. No project is presented as a completed research contribution.
+**Status: research in progress.** Project 1 is in Stage 1, foundations and data feasibility. A Python prototype, mathematical notes and preliminary numerical checks are available. An official Treasury data snapshot has been acquired; the option-market dataset and empirical study remain under development. Project 2 is planned. Project 3 focuses on ECB monetary-policy shocks and German consumer-goods production. Its public source snapshot, coverage audit and explanatory notebook are available; estimation and empirical findings remain future work. No project is presented as a completed research contribution.
 
 Start with the [Project 1 overview](projects/01_optimal_stopping/README.md), its [staged research design](projects/01_optimal_stopping/research_design.md) and the [observed-data plan](projects/01_optimal_stopping/data_plan.md). Setup and reproduction instructions are in the project overview.
 
-The [Germany research overview](#3-monetary-policy-and-consumer-goods-production-in-germany) below describes the economics question, accessible datasets and planned empirical work.
+The [Germany project overview](projects/03_germany_monetary_policy/README.md) describes the economics question, accessible datasets and planned empirical work. For installation and automated checks, use the [development guide](docs/development.md).
+
+## Repository structure
+
+```text
+Quantitative-Finance/
+├── .github/workflows/          Automated research checks
+├── data/public/                Attributed, dated source snapshots
+├── docs/                       Development guide and research roadmap
+├── projects/
+│   ├── 01_optimal_stopping/    Prototype, theory and numerical validation
+│   ├── 02_robust_portfolio/    Planned optimisation study
+│   ├── 03_germany_monetary_policy/  Data audit and empirical research design
+│   ├── 04_stochastic_volatility/   Optional later extension
+│   └── 05_volatility_calibration/  Optional later extension
+├── scripts/                    Data, documentation and notebook checks
+├── src/qf_research/             Reusable Python implementation
+└── tests/                      Automated numerical and ingestion tests
+```
+
+The [project index](projects/README.md) identifies the current stage of each investigation. The three main project directories include places for configurations, notebooks, reports and results. Planned work is labelled explicitly; the presence of a directory does not imply a completed implementation.
+
+Runnable entry points are the [numerical-validation notebook](projects/01_optimal_stopping/notebooks/01_numerical_validation.ipynb) and the [Germany data-coverage notebook](projects/03_germany_monetary_policy/notebooks/01_data_coverage.ipynb). See the [data guide](data/README.md), [third-party notices](THIRD_PARTY_NOTICES.md) and [research roadmap](docs/roadmap.md).
 
 ## What this repository investigates
 
@@ -168,7 +190,7 @@ The analysis would separate integration error, optimisation error, weak identifi
 | **Generated figures and tables** | Make the findings inspectable and reproducible |
 | **Data and source documentation** | Record provenance, transformations, permissions and attribution |
 
-Reusable algorithms live in the source package. The first implementation includes documented command-line experiments and generated validation records. Planned explanatory notebooks will import the reusable implementation and be executed from a fresh kernel before release. Notebooks are not yet included in the current repository.
+Reusable algorithms live in the source package. The current release includes documented command-line experiments, generated numerical-validation records and two introductory notebooks. Notebooks import reusable code and execute from fresh kernels. The empirical estimation notebooks and completed research reports remain future work.
 
 ## Reproducibility and research standards
 
